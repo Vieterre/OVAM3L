@@ -1016,6 +1016,37 @@
       animation: intro-title-in .72s cubic-bezier(.2,.85,.3,1) .68s both;
     }
 
+    .intro-start {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 11rem;
+      min-height: 3rem;
+      margin-top: 1.5rem;
+      padding: .8rem 1.5rem;
+      border: 1px solid rgba(255,234,0,.75);
+      border-radius: .9rem;
+      color: #142334;
+      background: #FFEA00;
+      box-shadow: 0 12px 30px rgba(0,0,0,.28);
+      font-size: .78rem;
+      font-weight: 950;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+      animation: intro-skip-in .5s ease-out 1.2s both;
+    }
+
+    .intro-start:hover,
+    .intro-start:focus-visible {
+      background: #fff36a;
+      box-shadow: 0 15px 36px rgba(0,0,0,.34);
+      transform: translateY(-2px);
+      outline: 3px solid rgba(255,255,255,.7);
+      outline-offset: 3px;
+    }
+
     .intro-subtitle {
       margin-top: .55rem;
       color: #d9e4ef;
@@ -3258,13 +3289,13 @@
 
 <!-- CORTINILLA INSTITUCIONAL -->
 <section id="intro-curtain" role="dialog" aria-modal="true" aria-label="Presentación de la Gerencia de Control Interno de Gestión">
-  <button class="intro-skip" type="button" onclick="IntroCurtain.finish()" aria-label="Omitir cortinilla de presentación">
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 5l7 7-7 7M17 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
   <div class="intro-core">
     <div class="intro-title-stack">
       <h1 class="intro-title">Gerencia de Control Interno de Gestión</h1>
     </div>
+    <button id="intro-start" class="intro-start" type="button" onclick="IntroCurtain.finish()">
+      Iniciar OVA
+    </button>
   </div>
 
   <svg class="intro-panorama" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -3524,26 +3555,18 @@
 
 <script>
   const IntroCurtain = {
-    timer: null,
     hidden: false,
-    handleKeydown(event) {
-      if (event.key === 'Escape') IntroCurtain.finish();
-    },
     start() {
       const curtain = document.getElementById('intro-curtain');
       if (!curtain) {
         document.body.classList.remove('intro-playing');
         return;
       }
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      document.addEventListener('keydown', this.handleKeydown);
-      this.timer = window.setTimeout(() => this.finish(false), reducedMotion ? 650 : 8000);
+      window.setTimeout(() => document.getElementById('intro-start')?.focus(), 1200);
     },
     finish(immediate = false) {
       if (this.hidden) return;
       this.hidden = true;
-      if (this.timer) window.clearTimeout(this.timer);
-      document.removeEventListener('keydown', this.handleKeydown);
       const curtain = document.getElementById('intro-curtain');
       if (!curtain) return;
       if (immediate || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -3789,7 +3812,6 @@
 
     <span class="text-[10px] tracking-[.22em] font-black text-baq-verde uppercase">Objeto Virtual de Aprendizaje</span>
     <h1 class="text-xl md:text-2xl font-black mt-2 text-white leading-tight uppercase">Modelo de las Tres Líneas</h1>
-    <p class="text-xs md:text-sm text-slate-300/90 mt-2">Modelo de las Tres Líneas · Modelo Integrado de Planeación y Gestión (MIPG) v6.1 · Dimensión 7 Control Interno</p>
 
     <div class="my-6 p-4 bg-navy-950/80 rounded-2xl border border-slate-700/60 text-left text-sm leading-relaxed text-slate-300">
       <strong class="text-baq-verde block mb-2 font-black uppercase tracking-wide text-xs">Ruta de inducción en control interno</strong>
